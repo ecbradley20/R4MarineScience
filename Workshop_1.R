@@ -114,3 +114,14 @@ biological_signal <- penguins %>%
 
 print(biological_signal)
 
+
+mean_bodymass_by_species_and_island <- penguins %>%
+  group_by(species, island) %>%
+  summarise(
+    sample_size = n(),                                     # Count total individuals per category
+    mean_mass_g = mean(body_mass_g, na.rm = TRUE),         # Calculate mean ignoring missing cells
+    sd_mass_g   = sd(body_mass_g, na.rm = TRUE)            # Standard deviation calculation
+  )
+
+print(mean_bodymass_by_species_and_island)
+
