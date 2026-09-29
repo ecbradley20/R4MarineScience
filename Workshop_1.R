@@ -74,4 +74,16 @@ heaviest_first <- arrange(penguins, desc(body_mass_g))
 stratified_morphology <- arrange(penguins, species, desc(bill_length_mm))
 
 
+# Tidyverse Pipe syntax
+penguins_final <- penguins |>
+  mutate(bill_ratio = bill_length_mm / bill_depth_mm) |>
+  filter(species == "Adelie")
 
+
+# Calculate a new morphological ratio in our environment
+penguin_ratios <- penguins  |> 
+  mutate(body_mass_kg = body_mass_g / 1000,   # Convert grams to kilograms
+         bill_ratio = bill_length_mm / bill_depth_mm  # Bill ratio
+  )
+# View your newly engineered variables appended to the far-right columns
+glimpse(penguin_ratios)
