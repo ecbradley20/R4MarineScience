@@ -39,10 +39,39 @@ summary(penguins)
 # Vertically slice specific morphometric variables by explicit name
 morphology_metrics <- select(penguins, species, bill_length_mm, bill_depth_mm, body_mass_g)
 glimpse(morphology_metrics)
-
 # Retain a continuous block of attributes using the colon operator
 spatial_block <- select(penguins, species:island)
-
 # Discard logistics tracking attributes while preserving everything else using the minus sign
 clean_scientific_fields <- select(penguins, -year)
+
+# Isolate observations belonging to a single categorical target group
+adelie_cohort <- filter(penguins, species == "Adelie")
+# Sift out individuals using continuous numerical boundary thresholds
+# Preserves only large penguins whose mass exceeds 4500 grams
+heavy_penguins <- filter(penguins, body_mass_g > 4500)
+# Combine multiple conditional parameters across separate attributes
+# Preserves records matching Gentoo penguins sampled explicitly on Biscoe Island
+biscoe_gentoo <- filter(penguins, species == "Gentoo" & island == "Biscoe")
+# Sift records matching multiple targeting flags within an explicit set
+sub_islands <- filter(penguins, island %in% c("Dream", "Torgersen"))
+
+# Isolate observations belonging to a single categorical target group
+adelie_cohort <- filter(penguins, species == "Adelie")
+# Sift out individuals using continuous numerical boundary thresholds
+# Preserves only large penguins whose mass exceeds 4500 grams
+heavy_penguins <- filter(penguins, body_mass_g > 4500)
+# Combine multiple conditional parameters across separate attributes
+# Preserves records matching Gentoo penguins sampled explicitly on Biscoe Island
+biscoe_gentoo <- filter(penguins, species == "Gentoo" & island == "Biscoe")
+# Sift records matching multiple targeting flags within an explicit set
+sub_islands <- filter
+
+# Sort penguins by ascending body mass (Default setting: Smallest mass first)
+lightest_first <- arrange(penguins, body_mass_g)
+# Sort penguins in descending sequence using the desc() layout wrapper
+heaviest_first <- arrange(penguins, desc(body_mass_g))
+# Execute nested sorting criteria: Group by species, then sort by descending bill length
+stratified_morphology <- arrange(penguins, species, desc(bill_length_mm))
+
+
 
