@@ -25,3 +25,10 @@ print(benthic_cover_df)
 print(benthic_cover)
 
 
+# Load the package data into active memory
+library(palmerpenguins)
+data("penguins")
+
+# Examine the structure of the dataset - always do this when loading a new dataset!
+glimpse(penguins) # tidyverse version (from dplyr package)
+str(penguins) # base R version
