@@ -15,3 +15,13 @@ fisheries_annual <- read_excel(here::here("data/workshop1/fish_catch_data.xlsx")
 # Read in mangrove_data
 mangrove_data <- read_csv(file = here::here("data/workshop1/mangrove_survey_raw.csv"))
 
+
+# Force a modern tibble to degrade into a legacy base R data frame structure
+benthic_cover_df <- as.data.frame(benthic_cover)
+
+# Print the old-style dataframe structure to view
+print(benthic_cover_df)
+# And compare with tibble alternative
+print(benthic_cover)
+
+
