@@ -32,3 +32,17 @@ data("penguins")
 # Examine the structure of the dataset - always do this when loading a new dataset!
 glimpse(penguins) # tidyverse version (from dplyr package)
 str(penguins) # base R version
+
+# Generate an exploratory summary matrix
+summary(penguins)
+
+# Vertically slice specific morphometric variables by explicit name
+morphology_metrics <- select(penguins, species, bill_length_mm, bill_depth_mm, body_mass_g)
+glimpse(morphology_metrics)
+
+# Retain a continuous block of attributes using the colon operator
+spatial_block <- select(penguins, species:island)
+
+# Discard logistics tracking attributes while preserving everything else using the minus sign
+clean_scientific_fields <- select(penguins, -year)
+
