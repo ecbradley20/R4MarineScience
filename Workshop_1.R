@@ -128,3 +128,66 @@ print(mean_bodymass_by_species_and_island)
 
 ggplot(data = penguins) +
   geom_boxplot(mapping = aes(x = species,y = body_mass_g,fill = island))
+
+
+# Pipe directly from aggregation to plotting with error bars
+mass_compare_plot <- penguins |>
+  group_by(species, island) |>
+  summarise(
+    mean_mass = mean(body_mass_g, na.rm = TRUE),
+    sd_mass = sd(body_mass_g, na.rm = TRUE),
+    n = n(),
+    .groups = "drop"
+  ) |>
+  ggplot(aes(x = species, y = mean_mass, colour = island)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = mean_mass - sd_mass, 
+                    ymax = mean_mass + sd_mass), 
+                width = 0.2) +
+  labs(title = "Mean Body Mass by Species and Island",
+       subtitle = "Error bars represent standard deviation",
+       y = "Mean Body Mass (g)",
+       x = "Species") +
+  theme_minimal()
+
+mass_compare_plot
+
+
+# Challenge 3
+mass_compare_plot <- penguins |>
+  group_by(species, island) |>
+  summarise(
+    mean_mass = mean(body_mass_g, na.rm = TRUE), 
+    se_mass = sd(body_mass_g, na.rm = TRUE) / sqrt(n()), 
+    n = n(), 
+    .groups = "drop"
+  ) |>
+  ggplot(aes(x = species, y = mean_mass, colour = island)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = mean_mass - se_mass, 
+                    ymax = mean_mass + se_mass), 
+                width = 0.2) +
+  labs(title = "Mean Body Mass by Species and Island",
+       subtitle = "Error bars represent standard error",
+       y = "Mean Body Mass (g)",
+       x = "Species") +
+  theme_minimal()
+
+mass_compare_plot
+# the standard error is significantly narrower than the standard deviation, which means in short that the data has a wide range but is trustworthy
+
+
+# 1. Exporting our collapsed summary table as a universal flat text file
+dir.create("outputs")
+write_csv(biological_signal, "outputs/penguin_species_mass_summary.csv")
+
+# 2. Saving our cleaned morphological cohort table as a native R binary file
+saveRDS(clean_scientific_fields, "outputs/clean_penguin_morphology_cohort.rds")
+
+
+ggsave("outputs/mass_compare_plot.png", 
+       plot = mass_compare_plot, 
+       width = 120, height = 120, 
+       units = "mm", dpi = 300)
+
+
