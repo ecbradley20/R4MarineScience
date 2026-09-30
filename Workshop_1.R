@@ -125,3 +125,6 @@ mean_bodymass_by_species_and_island <- penguins %>%
 
 print(mean_bodymass_by_species_and_island)
 
+
+ggplot(data = penguins) +
+  geom_boxplot(mapping = aes(x = species,y = body_mass_g,fill = island))
