@@ -202,3 +202,11 @@ clean_metadata <- island_metadata |>
   )
 
 print(clean_metadata)
+
+#part 2
+penguins_spatial <- penguins |>
+  left_join(clean_metadata, by = join_by(island==island_name))
+
+print(penguins_spatial)
+# Scroll to the right to see the new columns
+head(penguins_spatial)
