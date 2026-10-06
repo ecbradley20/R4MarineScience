@@ -1,3 +1,4 @@
+#2.6
 library(tidyverse)
 
 library(palmerpenguins)
@@ -40,3 +41,27 @@ mass_matrix <- mass_summary |>
   )
 
 head(mass_matrix)
+
+
+#2.8
+library(tidyverse)
+
+# A remarkably messy data frame of field sites
+messy_sites <- tibble(
+  site_id = c("Nelly Bay", "nelly_bay", "NELLY BAY", " Geoffrey_Bay ", "geoffrey bay")
+)
+
+# Using stringr within mutate to standardize the text
+clean_sites <- messy_sites |>
+  mutate(
+    # 1. Convert everything to lowercase
+    site_clean = str_to_lower(site_id),
+    # 2. Replace any spaces with underscores
+    site_clean = str_replace_all(site_clean, pattern = " ", replacement = "_"),
+    # 3. Trim any leading or trailing whitespace (invisible spaces at the ends)
+    site_clean = str_trim(site_clean)
+  )
+
+print(clean_sites)
+
+
