@@ -65,3 +65,26 @@ clean_sites <- messy_sites |>
 print(clean_sites)
 
 
+library(lubridate)
+
+# Parsing different date formats
+date_1 <- dmy("25/12/2026")
+date_2 <- ymd("2026-12-25")
+
+# R now recognizes these as identical Date objects
+date_1 == date_2
+
+# A tibble of raw sensor data with a messy character timestamp
+sensor_data <- tibble(
+  raw_time = c("14-05-2026 08:30:00", "14-05-2026 08:45:00", "14-05-2026 09:00:00"),
+  temperature = c(24.5, 24.6, 24.4)
+)
+
+# Converting character strings to true POSIXct datetime objects
+sensor_clean <- sensor_data |>
+  mutate(
+    true_time = dmy_hms(raw_time)
+  )
+
+print(sensor_clean)
+
