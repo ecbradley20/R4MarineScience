@@ -1,0 +1,16 @@
+---
+title: "Workshop2"
+author: "Everett"
+format: html
+editor: visual
+---
+
+2.12
+
+Phase 1
+
+1\. Import data sets via right clicking them in the files window
+
+2\. Now, I think it would be best to standardize each data set individually. This way, I can give corresponding data the same headers (eg. naming the cleaned versions of "site" and "site_name" "site_clean"), thereby making it easier to join them.
+
+3\. The most immediate concern is viewing all of the excel tabs at once.
