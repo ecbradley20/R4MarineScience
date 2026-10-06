@@ -210,18 +210,3 @@ penguins_spatial <- penguins |>
 print(penguins_spatial)
 # Scroll to the right to see the new columns
 head(penguins_spatial)
-
-
-
-#2.12
-#Phase 1
-# 1. Import data sets via right clicking them in the files window
-# 2. Now, I think it would be best to standardize each data set individually.
-# This way, I can name the cleaned version of each column the same thing,
-# thereby making it easier to join them.
-# 3. The most immediate concern is viewing all of the excel tabs at once. I was
-# unable to accomplish this through R, so I manually modified the raw datasheet
-# to display all of the sites' data on the same tab.This document was exported
-# as "estuary_catch_log(Big_Data).csv" and added to the Workshop 2 data folder.
-
-
