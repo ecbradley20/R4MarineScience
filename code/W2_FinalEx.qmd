@@ -2,20 +2,40 @@
 title: "R4MS Workshop 2 - Final Exercise"
 author: "Ben Cresswell"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-output: 
- html_document:
-    code_folding: show
-    collapse: no
-    df_print: paged
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 10
-    highlight: textmate
-    theme: spacelab
-    toc: yes
-    toc_float: yes
-editor_options: 
-  chunk_output_type: inline
+
+# Output Config
+format: 
+  # HTML Output
+  html:
+    theme: cosmo          # Modern Bootstrap theme with clean typography
+    highlight-style: a11y # High-contrast syntax highlighting for code
+    toc: true             # Includes a Table of Contents
+    toc-depth: 3          # Captures down to sub-subsections (e.g., 3.1.1)
+    toc-location: left    # Pins TOC to left sidebar so it doesn't block main page
+    toc-title: "Contents" # Custom title for the TOC sidebar
+    number-sections: true # Numbers sections automatically (e.g., 1, 1.1, 2)
+    code-fold: true       # Collapses code blocks by default under a dropdown
+    code-summary: "Show code" # Label text on collapsed code blocks
+    code-tools: true      # Adds global code menu (Show/Hide All Code) at top right
+    code-copy: true       # Adds a one-click copy button to code blocks
+    embed-resources: true # Bundles images/CSS into a single stand-alone HTML file
+    df-print: paged       # Formats data frames into interactive paged tables
+    fig-height: 5         # Default plot height in inches
+    fig-width: 8          # Default plot width in inches
+    #fig-responsive: true # Scales figures smoothly across screen sizes
+    smooth-scroll: true   # Enables smooth scrolling when clicking TOC links
+    
+# Code Execution Defaults across all chunks
+execute:
+  echo: true              # Display source code alongside outputs
+  eval: true              # Execute the code in the chunk
+  include: true           # Include the chunk in the final rendered document
+  warning: false          # Suppress warning messages in final rendered document
+  message: false          # Suppress package/function load messages in rendered output
+  knitr:
+    opts_chunk: 
+      comment: "#>"       # Clean output prefix for console printed output
+      dev: "cairo_pdf"    # Uses high-quality Cairo device for crisp vector graphics in PDF
 ---
 
 ```{r setup, include=FALSE}
@@ -392,7 +412,6 @@ fish_stats |>
     y = "Abundance (per day)"
   )
 ```
-
 
 
 
