@@ -210,3 +210,9 @@ penguins_spatial <- penguins |>
 print(penguins_spatial)
 # Scroll to the right to see the new columns
 head(penguins_spatial)
+
+
+
+#2.12
+#Phase 1
+#import data sets via right clicking them in the files window
