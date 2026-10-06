@@ -178,3 +178,27 @@ clean_log <- sensor_log |>
 
 
 #2.11
+#part 1
+# Make sure packages are loaded
+library(tidyverse)
+library(palmerpenguins)
+
+# The messy metadata provided by your colleague
+island_metadata <- tibble(
+  island_name = c(" biscoe", "Dream ", "Torgersen"),
+  station_install = c("15/01/2003", "22-03-2004", "05/11/2001"),
+  latitude = c(-64.81, -64.73, -64.76)
+)
+
+print(island_metadata)
+
+clean_metadata <- island_metadata |> 
+  mutate(
+    
+    island_name = str_trim(island_name),
+    island_name = str_to_title(island_name),
+    
+    station_install = standardized <- parse_date_time(station_install, orders = c("dmy", "dmy", "dmy"))
+  )
+
+print(clean_metadata)
