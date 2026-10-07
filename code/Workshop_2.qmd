@@ -6,24 +6,25 @@ editor: visual
 ---
 
 # 2.12
-
 This project is about optimizing and consolidating multiple datasets into a clean, finished product using commands in RStudio (obviously, all of these workshops are in RStudio).
 
 ## Phase 1
-
 Phase 1 is our setup. In order to analyze the data, we need to clean up the mess we've been handed. Before anything else, we need to populate the library with the necessary packages. Consider this our preamble/staging step.
-
 ```{r packages echo = FALSE}
 library(tidyverse) # Ole reliable, this includes a load of useful sub-programs: dplyr, ggplot2, lubridate (dates, as the name would suggest), and stringr (text).
 library(readxl) # One of our datesets is stored in an excel rather than a csv file, so we'll need a bespoke package to read and manipulate it.
 ```
 
-### 1. Import the .csv files via left clicking them in the files window and selecting "Import dataset...".
+### 1. Import the .csv files
+Now that our packages are installed, let's load all of the .csv files into our library. We won't do anything with them for now, but I find it's best to load them all in a single block that can be run whenever we re-open the project.
+```{r load-data}
+metadata <- read_csv("../data/workshop2/estuary_metadata.csv")
+species_dict <- read_csv("../data/workshop2/species_dictionary.csv")
+source(here::here("code/diw_sensor.R"))
+```
 
 ### 2. Prepping estuary_catch_log.xlsx
-
 The excel file has its data spread across four tabs, so we'll need to load each tab individually so that we can view and manipulate them in RStudio.
-
 ```{r load-catch-1}
 catch1 <- read_excel(here::here("data/workshop2/estuary_catch_log.xlsx"), sheet = 1) # You can alternatively input the name of each tab rather than its number, but opting for the number is faster if you don't know these names.
 catch2 <- read_excel("../data/workshop2/estuary_catch_log.xlsx", sheet = 2)
@@ -32,10 +33,40 @@ catch4 <- read_excel("../data/workshop2/estuary_catch_log.xlsx", sheet = 4)
 ```
 
 Check your environment to ensure that everything loaded properly. Now it's time to combine these sheets into a single file.
-
 ```{r bind-catch}
 catch_data <- bind_rows(catch1, catch2, catch3, catch4)
 rm(catch1, catch2, catch3, catch4)
 ```
 
+Now that we've run this, we have a single data file named "catch_data" that holds everything from the excel document. We'll check to see how many levels we have for locations and species, and in so doing make sure that these levels are consistently named within our combined dataset.
+```{r distinct-catch}
+catch_data |> 
+  distinct(site)
+
+catch_data |> 
+  distinct(species)
+```
+
+Because we're compartmentalizing our data wrangling, we'll pick a notation and just apply it using stringr and lubridate as we get to each dataset. For this project, we'll make everything lowercase and use underscores instead of spaces.
+```{r fix-site-names}
+catch_data <- catch_data |>
+  mutate(
+  # Get rid of leading and trailing spaces
+    site = str_trim(site),
+  # Make everything lowercase
+    site = str_to_lower(site),
+  # Turn the spaces we want into underscores
+    site = str_replace_all(site, " ", "_"),
+  # Do the same for the species entries
+    species = str_trim(species),
+  # Make everything lowercase
+    species = str_to_lower(species),
+  # Turn the spaces we want into underscores
+    species = str_replace_all(species, " ", "_"))|> 
+  # Convert all chr to fct
+  mutate(across(where(is.character), as_factor)
+  )
+  # Make sure everything looks correct
+print(catch_data)
+```
 ### 3. Now, I think it would be best to standardize each data set individually. This way, I can give corresponding data the same headers (eg. naming the cleaned versions of "site" and "site_name" "site_clean"), thereby making it easier to join them.
