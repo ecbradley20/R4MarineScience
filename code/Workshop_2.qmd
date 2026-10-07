@@ -5,12 +5,37 @@ format: html
 editor: visual
 ---
 
-2.12
+# 2.12
 
-Phase 1
+This project is about optimizing and consolidating multiple datasets into a clean, finished product using commands in RStudio (obviously, all of these workshops are in RStudio).
 
-1\. Import data sets via right clicking them in the files window
+## Phase 1
 
-2\. Now, I think it would be best to standardize each data set individually. This way, I can give corresponding data the same headers (eg. naming the cleaned versions of "site" and "site_name" "site_clean"), thereby making it easier to join them.
+Phase 1 is our setup. In order to analyze the data, we need to clean up the mess we've been handed. Before anything else, we need to populate the library with the necessary packages. Consider this our preamble/staging step.
 
-3\. The most immediate concern is viewing all of the excel tabs at once.
+```{r packages echo = FALSE}
+library(tidyverse) # Ole reliable, this includes a load of useful sub-programs: dplyr, ggplot2, lubridate (dates, as the name would suggest), and stringr (text).
+library(readxl) # One of our datesets is stored in an excel rather than a csv file, so we'll need a bespoke package to read and manipulate it.
+```
+
+### 1. Import the .csv files via left clicking them in the files window and selecting "Import dataset...".
+
+### 2. Prepping estuary_catch_log.xlsx
+
+The excel file has its data spread across four tabs, so we'll need to load each tab individually so that we can view and manipulate them in RStudio.
+
+```{r load-catch-1}
+catch1 <- read_excel(here::here("data/workshop2/estuary_catch_log.xlsx"), sheet = 1) # You can alternatively input the name of each tab rather than its number, but opting for the number is faster if you don't know these names.
+catch2 <- read_excel("../data/workshop2/estuary_catch_log.xlsx", sheet = 2)
+catch3 <- read_excel("../data/workshop2/estuary_catch_log.xlsx", sheet = 3)
+catch4 <- read_excel("../data/workshop2/estuary_catch_log.xlsx", sheet = 4)
+```
+
+Check your environment to ensure that everything loaded properly. Now it's time to combine these sheets into a single file.
+
+```{r bind-catch}
+catch_data <- bind_rows(catch1, catch2, catch3, catch4)
+rm(catch1, catch2, catch3, catch4)
+```
+
+### 3. Now, I think it would be best to standardize each data set individually. This way, I can give corresponding data the same headers (eg. naming the cleaned versions of "site" and "site_name" "site_clean"), thereby making it easier to join them.
