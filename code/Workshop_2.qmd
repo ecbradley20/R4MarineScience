@@ -82,5 +82,26 @@ print(catch_data)
 ```
 
 ### 3. Standardize our other data
-Now that we've set our syntax standards on our catch_data file, it will serve as the nexus to which we'll add data from our other files using the join() function. To save us a headache, we're going to apply the same syntax (all lower case and underscore separated) to each file before we begin the great joining.
 
+Now that we've set our syntax standards on our catch_data file, it will serve as the nexus to which we'll add data from our other files using the join() function. To save us a headache, we're going to apply the same syntax (all lower case and underscore separated) to each file before we begin the great joining. Let's start with ensuring that the site names in the metadata match our catch_data.
+```{r inspect-metadata}
+head(metadata)
+glimpse(metadata)
+```
+Decidedly not. Let's fix that by running the same code framework we applied to catch_data.
+```{r fix-site-names}
+metadata <- metadata |>
+  mutate(
+    # By using additional parenthetical, you can actually nest the trim command within the command to make everything lower case
+    site_name = str_to_lower(str_trim(site_name)),
+    site_name = str_replace_all(site_name, " ", "_")) |> 
+  # Convert all characters to factors, this will help us greatly when it's time to wrangle our data
+  mutate(across(where(is.character), as_factor)
+  )
+```
+Now run our glimpse code again to make sure it worked...
+```{r inspect-metadata}
+head(metadata)
+glimpse(metadata)
+```
+... and it did!
